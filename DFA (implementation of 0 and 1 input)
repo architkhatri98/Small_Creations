@@ -1,6 +1,6 @@
 /*
 A DFA that will accept a string in which if three 0's come consecutively and then if 1 is at the end, then it is in final state.
-Although the user make their own machine using State.join() function
+Although the user can make their own machine using State.join() function
 
 The user just has to write->
 State.join(* The state which is being joined *, * To state which it is joint on input 0 *, * To state which it is joint on input 1*);
