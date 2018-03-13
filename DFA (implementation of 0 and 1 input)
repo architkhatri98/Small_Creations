@@ -1,0 +1,82 @@
+/*
+A DFA that will accept a string in which if three 0's come consecutively and then if 1 is at the end, then it is in final state.
+Although the user make their own machine using State.join() function
+
+The user just has to write->
+State.join(* The state which is being joined *, * To state which it is joint on input 0 *, * To state which it is joint on input 1*);
+example-> State.join(q0,q1,q2); //where q0, q1, q2 are states 
+
+Thanks for being here.
+*/
+
+import java.util.Scanner;
+
+class State {
+    private boolean finalState;
+    int val = 1;
+    private State nextZero;
+    private State nextOne;
+    
+    State() {
+        finalState = false;
+        nextZero = null;
+        nextOne = null;
+    }
+    
+    static void join(State current, State inputZero, State inputOne) {
+        current.nextZero = inputZero;
+        current.nextOne = inputOne;
+    }
+    
+    void setFinal() {
+        finalState = true;
+    }
+    
+    private boolean isFinal() {
+        if (this.finalState){return true;}
+        else {return false;}
+    }
+    
+    static boolean stringMatches(String inp, State initial) {
+        State pointer = initial;
+       
+        for (int i = 0; i < inp.length(); i++){
+            System.out.print(inp.charAt(i));
+            if (inp.charAt(i) == '0'){
+                if (pointer.nextZero != null){
+                    pointer = pointer.nextZero;
+                }
+            }
+            else if (inp.charAt(i) == '1'){
+                if (pointer.nextOne != null){
+                    pointer = pointer.nextOne;
+                }
+            }
+        }
+        System.out.println();
+        return pointer.isFinal();
+    }
+}
+
+public class DFAjava {
+
+    public static void main(String[] args) {
+
+        State[] q = new State[5];
+        for (int i = 0; i < 5; i++){
+            q[i] = new State();
+        }
+        q[4].setFinal();
+        
+        State.join(q[0], q[1], q[0]);
+        State.join(q[1],q[2],q[0]);
+        State.join(q[2],q[3],q[0]);
+        State.join(q[3],q[3],q[4]);
+        State.join(q[4],q[1],q[0]);
+        
+        Scanner scan = new Scanner(System.in);
+        String input = scan.nextLine();
+        
+        System.out.println(State.stringMatches(input, q[0]));
+    }
+}
